@@ -5,26 +5,42 @@ import SetupForm from './SetupForm'
 import Loading from './Loading'
 import Modal from './Modal'
 function App() {
-
-  const {wait,load,questions,index,correct,nextQuestion}= useGlobalContext()
-  if(wait){
+  const {
+    waiting,
+    loading,
+    questions,
+    index,
+    correct,
+    nextQuestion,
+    checkAnswer,
+  } = useGlobalContext()
+  if (waiting) {
     return <SetupForm />
   }
-
-  if(load){
+  if (loading) {
     return <Loading />
   }
-  const {question,incorrect_answer,correct_answer}=questions[index]
-  const answers = [...incorrect_answer,correct_answer]
-  return (<main>
-    <Modal />
-    <section className='quiz'>
-      <p className='correct-answers'>
-       Correct Answer : {correct}/{index}
-      </p>
-      <article className='container'>
-        <h2 dangerouslySetInnerHTML={{__html: question}}/>
-        <div className='btn-container'>
+
+  const { question, incorrect_answers, correct_answer } = questions[index]
+  // const answers = [...incorrect_answers, correct_answer]
+  let answers = [...incorrect_answers]
+  const tempIndex = Math.floor(Math.random() * 4)
+  if (tempIndex === 3) {
+    answers.push(correct_answer)
+  } else {
+    answers.push(answers[tempIndex])
+    answers[tempIndex] = correct_answer
+  }
+  return (
+    <main>
+      <Modal />
+      <section className='quiz'>
+        <p className='correct-answers'>
+          correct answers : {correct}/{index}
+        </p>
+        <article className='container'>
+          <h2 dangerouslySetInnerHTML={{ __html: question }} />
+          <div className='btn-container'>
             {answers.map((answer, index) => {
               return (
                 <button
@@ -36,14 +52,13 @@ function App() {
               )
             })}
           </div>
-      </article>
-      <button className='next-question' onClick={nextQuestion}>
-          Next Question
+        </article>
+        <button className='next-question' onClick={nextQuestion}>
+          next question
         </button>
-      
-    </section>
-  </main> )
-
+      </section>
+    </main>
+  )
 }
 
 export default App
