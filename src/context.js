@@ -47,12 +47,23 @@ const AppProvider = ({ children }) => {
     
   }
 
+  const nextQuestion = () => {
+    setIndex((oldIndex) => {
+      const index = oldIndex + 1
+      if (index > questions.length - 1) {
+        openModal()
+        return 0
+      } else {
+        return index
+      }
+    })
+  }
   useEffect(()=>{
     fetchQuestions(temp)
   },[])
   return (
     <AppContext.Provider
-      value={{ wait, load, questions, index, correct, error, isModalOpen }}
+      value={{ wait, load, questions, nextQuestion,index, correct, error, isModalOpen }}
     >
       {children}
     </AppContext.Provider>

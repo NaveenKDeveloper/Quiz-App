@@ -6,7 +6,7 @@ import Loading from './Loading'
 import Modal from './Modal'
 function App() {
 
-  const {wait,load,questions,index,correct}= useGlobalContext()
+  const {wait,load,questions,index,correct,nextQuestion}= useGlobalContext()
   if(wait){
     return <SetupForm />
   }
@@ -14,7 +14,7 @@ function App() {
   if(load){
     return <Loading />
   }
-  const {question,incorrect_answer,correct_answer}=questions[0]
+  const {question,incorrect_answer,correct_answer}=questions[index]
   const answers = [...incorrect_answer,correct_answer]
   return (<main>
     <Modal />
