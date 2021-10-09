@@ -68,4 +68,4 @@ const SetupForm = () => {
   )
 }
 
-export default 
+export default SetupForm
